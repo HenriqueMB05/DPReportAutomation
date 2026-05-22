@@ -11,8 +11,8 @@ load_dotenv()
 
 obras = {
     "vale": {
-        "barragemObra": [18, None],
-        "barragemCNPJ": [1, 18], 
+        "barragem_obra": [18, None],
+        "barragem_cnpj": [1, 18], 
         "operacao": [38, None], 
         "infra":[23, None], 
         "remanescente": [25, None]
@@ -59,10 +59,12 @@ def decode_cabecalho(txt_code):
             result.append(texto)
     return "".join(result)
 
-def catch_email():
+def catch_emails():
     mail.select("inbox")
     status, mensagens = mail.search(None, "UNSEEN")
     ids = mensagens[0].split()
+
+    lista_emails = []
     for i in ids:
         status, dados = mail.fetch(i, "(BODY.PEEK[])")
         raw_email = dados[0][1]
@@ -83,18 +85,27 @@ def catch_email():
             subject = subject.decode(enconding or "utf-8")
         remetente = decode_cabecalho(mensagem["from"])
         assunto = decode_cabecalho(mensagem["subject"])
-    return remetente, assunto, corpo
+        lista_emails.append({
+            "id":i,
+            "remetente": remetente,
+            "assunto":assunto,
+            "corpo":corpo
+        })
+    return lista_emails
 
-
-def verificarObra(corpo):
+obra = []
+def verificarObra(nome_da_obra):
     for key, value in obras.items():
-        
+        for k, v in value.items():
+            if k.lower() in nome_da_obra.lower():
+                servico = v[0]
+                departamento = v[1]
+                if isinstance(departamento, list):
+                    for dpto in departamento:
+                        obra.append((servico, dpto))
+                else:
+                    obra.append((servico, departamento))
 
-#remetente, assunto,corpo = catch_email()
+remetente, assunto,corpo = catch_email()
 
-#print(f'Email: {remetente}')
-#print(f'Assunto: {assunto}')
-#print(f"Corpo: {corpo}")
-
-print(f"{obras['vale']['remanescente'][0]}")
 mail.logout()
