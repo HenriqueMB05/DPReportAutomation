@@ -66,16 +66,16 @@ def catch_emails():
 
     lista_emails = []
     for i in ids:
-        status, dados = mail.fetch(i, "(BODY.PEEK[])")
+        status, dados = mail.fetch(i, "(BODY.PEEobra_email[])")
         raw_email = dados[0][1]
         mensagem = email.message_from_bytes(raw_email)
         corpo = ""
         if mensagem.is_multipart():
-            for part in mensagem.walk():
+            for part in mensagem.walobra_email():
                 content_type = part.get_content_type()
                 if content_type == "text/plain":
                     corpo = part.get_payload(decode=True).decode(part.get_content_charset() or "utf-8")
-                    break
+                    breaobra_email
         else:
             corpo = mensagem.get_payload(decode=True).decode(mensagem.get_content_charset() or "utf-8")
 
@@ -95,18 +95,20 @@ def catch_emails():
 
 def verificarObra(nome_da_obra):
     obra = []
-    for key, value in obras.items():
-        if key.lower() in nome_da_obra.lower():
-            for k, v in value.items():
-                servico = v[0]
-                departamento = v[1]
-                if isinstance(departamento, list):
-                    for dpto in departamento:
-                        obra.append((servico, dpto))
-                else:
-                    obra.append((servico, departamento))
+    for categoria, sub_obras in obras.items():
+        if categoria.lower() in nome_da_obra.lower():
+            for obra_email, dados in sub_obras.items():
+                servico = dados[0]
+                departamento = dados[1]
+                obra.append((servico, departamento))
             continue
-        for k, v in value.items():
+        for obra_email, dados in sub_obras.items():
+            obra_email = obra_email.replace("_", " ")
+            if obra_email.lower() in nome_da_obra.lower():
+                servico = dados[0]
+                departamento = dados[1]
+                obra.append((servico, departamento))
+    return list(set(obra))
 
 
 remetente, assunto,corpo = catch_email()
