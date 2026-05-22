@@ -11,28 +11,28 @@ load_dotenv()
 
 obras = {
     "vale": {
-        "barragem_obra": [18, None],
-        "barragem_cnpj": [1, 18], 
-        "operacao": [38, None], 
-        "infra":[23, None], 
-        "remanescente": [25, None]
+        "barragem obra": ["18", None],
+        "barragem_cnpj": ["1", "18"], 
+        "operacao": ["38", None], 
+        "infra":["23", None], 
+        "remanescente": ["25", None]
     },
     "publica": {
-        "cnpj":[1, [1,3]],
-        "oficina":[1,23],
-        "goinia":[1,35],
-        "trilha_mirante":[20,None],
-        "capanema": [21,None],
-        "sebrae": [29, None],
-        "pq_mirante":[34, None],
-        "pq_linear":[37,None]
+        "cnpj":["1", "1,3"],
+        "oficina":["1","23"],
+        "goinia":["1","35"],
+        "trilha_mirante":["20",None],
+        "capanema": ["21",None],
+        "sebrae": ["29", None],
+        "pq_mirante":["34", None],
+        "pq_linear":["37",None]
     },
     "consorcio":{
-        "candeias":[27, None],
-        "ji-parana":[28,None],
-        "tapa_buraco":[31,None],
-        "rio_da_vala":[33,None],
-        "rio_caete":[35,None]
+        "candeias":["27", None],
+        "ji-parana":["28",None],
+        "tapa_buraco":["31",None],
+        "rio_da_vala":["33",None],
+        "rio_caete":["35",None]
     }
 }
 
@@ -93,11 +93,11 @@ def catch_emails():
         })
     return lista_emails
 
-obra = []
 def verificarObra(nome_da_obra):
+    obra = []
     for key, value in obras.items():
-        for k, v in value.items():
-            if k.lower() in nome_da_obra.lower():
+        if key.lower() in nome_da_obra.lower():
+            for k, v in value.items():
                 servico = v[0]
                 departamento = v[1]
                 if isinstance(departamento, list):
@@ -105,6 +105,9 @@ def verificarObra(nome_da_obra):
                         obra.append((servico, dpto))
                 else:
                     obra.append((servico, departamento))
+            continue
+        for k, v in value.items():
+
 
 remetente, assunto,corpo = catch_email()
 
