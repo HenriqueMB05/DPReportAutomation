@@ -86,15 +86,15 @@ def catch_email():
     return remetente, assunto, corpo
 
 
-def verificarObra(corpo):
-    for key, value in obras.items():
+#def verificarObra(corpo):
+    #for key, value in obras.items():
         
 
-#remetente, assunto,corpo = catch_email()
+remetente, assunto,corpo = catch_email()
 
-#print(f'Email: {remetente}')
-#print(f'Assunto: {assunto}')
+print(f'Email: {remetente}')
+print(f'Assunto: {assunto}')
 #print(f"Corpo: {corpo}")
 
-print(f"{obras['vale']['remanescente'][0]}")
+#print(f"{obras['vale']['remanescente'][0]}")
 mail.logout()
