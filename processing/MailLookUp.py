@@ -2,28 +2,28 @@ class MailLookUp:
     def __init__(self):
         self.obras ={
             "vale": {
-                "barragem obra": ["18", None],
+                "barragem_obra": ["18", "17"]
                 "barragem_cnpj": ["1", "18"], 
-                "operacao": ["38", None], 
-                "infra":["23", None], 
-                "remanescente": ["25", None]
+                "operação": ["38", "37"], 
+                "infra":["23", "22"], 
+                "remanescente": ["25", "24"]
             },
             "publica": {
                 "cnpj":["1", "1,3"],
                 "oficina":["1","23"],
                 "goinia":["1","35"],
-                "trilha_mirante":["20",None],
-                "capanema": ["21",None],
-                "sebrae": ["29", None],
-                "pq_mirante":["34", None],
-                "pq_linear":["37",None]
+                "trilha_mirante":["20","19"],
+                "capanema": ["21","20"],
+                "sebrae": ["29","28"],
+                "parque_do_mirante":["34", "33"],
+                "parque_linear":["37","36"]
             },
             "consorcio":{
-                "candeias":["27", None],
-                "ji-parana":["28",None],
-                "tapa_buraco":["31",None],
-                "rio_da_vala":["33",None],
-                "rio_caete":["35",None]
+                "candeias":["27", "26"],
+                "ji-parana":["28","27"],
+                "tapa_buraco":["31","30"],
+                "rio_da_vala":["33","32"],
+                "rio_caete":["35","34"]
             }
         }
 
