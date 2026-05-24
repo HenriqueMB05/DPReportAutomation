@@ -1,8 +1,8 @@
 class MailLookUp:
     def __init__(self):
-        self.obras ={
+        self.services ={
             "vale": {
-                "barragem_obra": ["18", "17"]
+                "barragem_obra": ["18", "17"],
                 "barragem_cnpj": ["1", "18"], 
                 "operação": ["38", "37"], 
                 "infra":["23", "22"], 
@@ -26,20 +26,19 @@ class MailLookUp:
                 "rio_caete":["35","34"]
             }
         }
-
-    def verificarObra(self, nome_da_obra):
-        obra = []
-        for categoria, sub_obras in self.obras.items():
-            if categoria.lower() in nome_da_obra.lower():
-                for obra_email, dados in sub_obras.items():
-                    servico = dados[0]
-                    departamento = dados[1]
-                    obra.append((servico, departamento))
+    def service_resolver(self, name_service):
+        service = []
+        for category, sub_services in self.services.items():
+            if category.lower() in name_service.lower():
+                for email_service, data in sub_services.items():
+                    field_work = data[0]
+                    department = data[1]
+                    service.append((field_work, department))
                 continue
-            for obra_email, dados in sub_obras.items():
-                obra_email = obra_email.replace("_", " ")
-                if obra_email.lower() in nome_da_obra.lower():
-                    servico = dados[0]
-                    departamento = dados[1]
-                    obra.append((servico, departamento))
-        return list(set(obra))
+            for email_service, data in sub_services.items():
+                email_service = email_service.replace("_", " ")
+                if email_service.lower() in name_service.lower():
+                    field_work = data[0]
+                    department = data[1]
+                    service.append((field_work, department))
+        return list(set(service))
