@@ -29,6 +29,11 @@ class ServiceLookUp:
     def service_resolver(self, name_service):
         service = []
         for category, sub_services in self.services.items():
+            if "todos" in name_service.lower() or "todas" in name_service.lower():
+                for email_service, data in sub_services.items():
+                    field_work = data[0]
+                    department = data[1]
+                    service.append((field_work, department))
             if category.lower() in name_service.lower():
                 for email_service, data in sub_services.items():
                     field_work = data[0]
