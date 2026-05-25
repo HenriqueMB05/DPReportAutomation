@@ -1,3 +1,5 @@
-from .MailLookUp import MailLookUp
+from .EmailLookUp import EmailLookUp
+from .ServiceLookUp import ServiceLookUp
 
-__all__ = ["MailLookUp"]
+
+__all__ = ["EmailLookUp", "ServiceLookUp"]

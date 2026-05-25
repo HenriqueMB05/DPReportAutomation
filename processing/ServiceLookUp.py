@@ -1,5 +1,5 @@
-class MailLookUp:
-    def __init__(self):
+class ServiceLookUp:
+    def __init__(self): 
         self.services ={
             "vale": {
                 "barragem_obra": ["18", "17"],
@@ -42,3 +42,9 @@ class MailLookUp:
                     department = data[1]
                     service.append((field_work, department))
         return list(set(service))
+
+
+lista = ['barragem obra', 'barragem cnpj']
+
+if __name__ == '__main__':
+    service_resolver()
