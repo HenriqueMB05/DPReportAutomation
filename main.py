@@ -1,18 +1,27 @@
 from email_reader import Email
-from processamento import MailLookUp
+from processing import ServiceLookUp
 
-gerenciador_Emails = Email()
-validar_Obras = MailLookUp()
+email_manager = Email()
+qualify_service = ServiceLookUp()
 
-gerenciador_Emails.conectar()
+email_manager.conectar()
 
-lista_emails = gerenciador_Emails.catch_emails()
+email_list = email_manager.catch_emails()
 
-for email in lista_emails:
-    print(f"Id: {email['id']}")
-    print(f"remetente: {email['remetente']}")
-    print(f"assunto: {email['assunto']}")
-    print(f"corpo: {email['corpo']}")
-    print(f"{'-'*30}{'\n'*2}")
+obras = []
+
+for email in email_list:
+    subject_text = email["assunto"].lower().split("\n")
+    for mail in subject_text:
+        print(mail)
+        if "efetivo".lower() in mail:
+            print(f"id: {email['id']}")
+            print(f"Assunto: {email['assunto']}")
+            print(f"Corpo: {email['corpo']}")
+            obras = qualify_service.service_resolver(email['corpo']).copy()
+
+for i, k in enumerate(obras):
+    print(f"{i} - {k}")
+
 
 
