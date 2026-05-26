@@ -1,22 +1,7 @@
-from email_reader import Email
-from parsing import ServiceLookUp
+from parsing import EmailLookUp
 
-email_manager = Email()
-qualify_service = ServiceLookUp()
-
-email_manager.conectar()
-
-email_list = email_manager.catch_emails()
-
-service_list = {}
-for email in email_list:
-    subject_text = email["assunto"].lower().split("\n")
-    for mail in subject_text:
-        print(mail)
-        if "efetivo".lower() in mail:
-            service_code = qualify_service.service_resolver(email['corpo']).copy()
-            if service_code:
-                service_list.update({email['id']: service_code})
+qualify_email = EmailLookUp()
+service_list = qualify_email.mail_resolver()
 
 for email_id, work_field in service_list.items(): 
     print(f"{'-'*30}")
