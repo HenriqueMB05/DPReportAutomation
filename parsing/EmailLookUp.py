@@ -12,12 +12,12 @@ class EmailLookUp:
     def _validation_list(self):
         try:
             self.email_manager.conectar()
-            emails = self.email_manager.catch_email()
+            emails = self.email_manager.catch_emails()
             if not emails:
                 print("Nenhum email na caixa de entrada!")
                 return[]
             return emails
-        except Execption as err:
+        except Exception as err:
             print(f"Erro ao abrir/buscar emails: {err}")
             return []
 
@@ -25,6 +25,7 @@ class EmailLookUp:
         for email in self.email_list:
             subject = email["assunto"].lower().split("\n")
             for mail in subject:
+                service_code = []
                 if self.key_word.lower() in mail:
                     service_code = self.qualify_service.service_resolver(email['corpo']).copy()
                     if service_code:
