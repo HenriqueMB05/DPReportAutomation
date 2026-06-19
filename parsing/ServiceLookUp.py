@@ -26,6 +26,7 @@ class ServiceLookUp:
                 "rio_caete":["35","34"]
             }
         }
+        
     def service_resolver(self, name_service):
         service = []
         for category, sub_services in self.services.items():

@@ -44,11 +44,10 @@ class Email:
     def catch_emails(self):
         status, mensagens = self.mail.search(None, "UNSEEN")
         ids = mensagens[0].split()
-
         lista_emails = []
 
-        for i in ids:
-            status, dados = self.mail.fetch(i, "(BODY.PEEK[])")
+        for index in ids:
+            status, dados = self.mail.fetch(index, "(BODY.PEEK[])")
             raw_email = dados[0][1]
             mensagem = email.message_from_bytes(raw_email)
             corpo = ""
@@ -61,17 +60,14 @@ class Email:
             else:
                 corpo = mensagem.get_payload(decode=True).decode(mensagem.get_content_charset() or "utf-8")
 
-            corpo = EmailReplyParser.parse_reply(corpo)
-            subject, enconding = decode_header(mensagem["subject"])[0]
-            if isinstance(subject, bytes):
-                subject = subject.decode(enconding or "utf-8")
+            corpo_limpo = EmailReplyParser.parse_reply(corpo)
             remetente = self._decode_cabecalho(mensagem["from"])
             assunto = self._decode_cabecalho(mensagem["subject"])
             lista_emails.append({
-                "id":i,
+                "id":index,
                 "remetente": remetente,
                 "assunto":assunto,
-                "corpo":corpo
+                "corpo":corpo_limpo
             })
         return lista_emails
 
