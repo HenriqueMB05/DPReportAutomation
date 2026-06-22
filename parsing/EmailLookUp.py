@@ -2,11 +2,11 @@ from .ServiceLookUp import ServiceLookUp
 from email_reader.Email import Email
 
 class EmailLookUp:
-    def __init__(self, email_manager, servicelookup):
-        self.email_manager = email_manager
+    def __init__(self):
+        self.email_manager = Email()
         self.key_word = "efetivo"
         self.service_list = {}
-        self.qualify_service = servicelookup
+        self.qualify_service = ServiceLookUp()
         self.email_list = self._validation_list()
 
     def _validation_list(self):
