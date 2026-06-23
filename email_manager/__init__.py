@@ -1,3 +1,3 @@
 from .Email import Email
 
-__all__ = ["Email"]
+__all__ = ["Email", "EmailSender"]
