@@ -8,15 +8,15 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-class Email_Sender:
+class EmailSender:
     def __init__(self): 
         self.email = EmailMessage()
-        self.corpo = "<p>Olá!<br>Este é um email automatico enviado via python"
+        self.corpo = r"<p>Olá sior cookie pisca, nois que rraquia ceu emiu, pu favor nois da a senha."
         self.user = os.getenv("EMAIL_USER")
         self.pswd = os.getenv("EMAIL_PSWD")
 
     def sent(self):
-        self.email['Subject'] = "Teste"
+        self.email['Subject'] = "Pru favo"
         self.email['From'] = self.user
         self.email['To'] = os.getenv("EMAIL_FROM")
         self.email.set_content(self.corpo, subtype ='html')
@@ -29,6 +29,5 @@ class Email_Sender:
 
     
 if __name__ == "__main__":
-    mail = Email_Sender()
-
+    mail = EmailSender()
     mail.sent()
