@@ -1,5 +1,5 @@
 from .ServiceLookUp import ServiceLookUp
-from email_reader.Email import Email
+from email_manager.Email import Email
 
 class EmailLookUp:
     def __init__(self):

@@ -9,26 +9,27 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class Email_Sender:
-    def __init__(self): 
-        self.email = EmailMessage()
-        self.corpo = "<p>Olá!<br>Este é um email automatico enviado via python"
+    def __init__(self):
+        #self.email_manager = Email()
+        self.mail = EmailMessage()
         self.user = os.getenv("EMAIL_USER")
         self.pswd = os.getenv("EMAIL_PSWD")
+        self.corpo = ""
 
-    def sent(self):
-        self.email['Subject'] = "Teste"
-        self.email['From'] = self.user
-        self.email['To'] = os.getenv("EMAIL_FROM")
-        self.email.set_content(self.corpo, subtype ='html')
+    def sent(self, subject, email_reply):
+        self.mail['Subject'] = subject
+        self.mail['From'] = self.user
+        self.mail['To'] = email_reply
+        self.mail.set_content(self.corpo, subtype ='html')
         try:
             with smtplib.SMTP_SSL('smtp.gmail.com', 465) as servidor:
-                servidor.login(self.email['From'], self.pswd)
-                servidor.send_message(self.email)
+                servidor.login(self.mail['From'], self.pswd)
+                servidor.send_message(self.mail)
+                print("Email enviado")
         except Exception as err:
             print(f"Erro ao enviar email: {err}")
 
     
 if __name__ == "__main__":
     mail = Email_Sender()
-
-    mail.sent()
+    #mail.sent(assunto, email_do_remetente)
