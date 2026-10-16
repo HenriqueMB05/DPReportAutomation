@@ -42,32 +42,49 @@ class Email:
         return "".join(result)
 
     def catch_emails(self):
-        status, mensagens = self.mail.search(None, "UNSEEN")
+        status, mensagens = self.mail.search(None, 'UNSEEN SUBJECT "EFETIVO"')
         ids = mensagens[0].split()
         lista_emails = []
 
         for index in ids:
-            status, dados = self.mail.fetch(index, "(BODY.PEEK[])")
-            raw_email = dados[0][1]
-            mensagem = email.message_from_bytes(raw_email)
-            corpo = ""
-            if mensagem.is_multipart():
-                for part in mensagem.walk():
-                    content_type = part.get_content_type()
-                    if content_type == "text/plain":
-                        corpo = part.get_payload(decode=True).decode(part.get_content_charset() or "utf-8")
-                        break
-            else:
-                corpo = mensagem.get_payload(decode=True).decode(mensagem.get_content_charset() or "utf-8")
+            try:
+                status, dados = self.mail.fetch(index, "(BODY.PEEK[])")
+                if status != 'OK' or not dados or dados[0]:
+                    print(f"Ero ao buscar o e-mail ID {index}")
+                    continue
+                raw_email = dados[0][1]
+                mensagem = email.message_from_bytes(raw_email)
+                corpo = ""
+                if mensagem.is_multipart():
+                    for part in mensagem.walk():
+                        content_type = part.get_content_type()
+                        if content_type == "text/plain":
+                            charset = content_type or "utf-8"
+                            try:
+                                corpo = part.get_payload(decode=True).decode(charset)
+                            except (UnicodeDecodeError, LookupError):
+                                corpo = part.get_payload(decode=True).decode("latin1", errors="replace")
+                            break
+                else:
+                    charset = content_type or "utf-8"
+                    try:
+                        corpo = mensagem.get_payload(decode=True).decode(charset)
+                    except (UnicodeDecodeError, LookupError):
+                        corpo = mensagem.get_payload(decode=True).decode("latin1", errors="replace")
 
-            corpo_limpo = EmailReplyParser.parse_reply(corpo)
-            remetente = self._decode_cabecalho(mensagem["from"])
-            assunto = self._decode_cabecalho(mensagem["subject"])
-            lista_emails.append({
-                "id":index,
-                "remetente": remetente,
-                "assunto":assunto,
-                "corpo":corpo_limpo
-            })
+
+
+                corpo_limpo = EmailReplyParser.parse_reply(corpo)
+                remetente = self._decode_cabecalho(mensagem["from"])
+                assunto = self._decode_cabecalho(mensagem["subject"])
+                lista_emails.append({
+                    "id":index,
+                    "remetente": remetente,
+                    "assunto":assunto,
+                    "corpo":corpo_limpo
+                })
+            except Exception a err:
+                print(f"Falha ao processar email {i.decode('utf-8', errors='ignore'0} -> {err}")
+
         return lista_emails
 
