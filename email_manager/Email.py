@@ -49,7 +49,7 @@ class Email:
         for index in ids:
             try:
                 status, dados = self.mail.fetch(index, "(BODY.PEEK[])")
-                if status != 'OK' or not dados or dados[0]:
+                if status != 'OK' or not dados or not dados[0]:
                     print(f"Ero ao buscar o e-mail ID {index}")
                     continue
                 raw_email = dados[0][1]
