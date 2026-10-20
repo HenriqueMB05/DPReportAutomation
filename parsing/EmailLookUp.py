@@ -1,25 +1,21 @@
 from .ServiceLookUp import ServiceLookUp
-from email_manager.Email import Email
 
 class EmailLookUp:
-    def __init__(self):
-        self.email_manager = Email()
+    def __init__(self, emails):
+        self.email_manager = emails
         self.key_word = "efetivo"
-        self.service_list = {}
+        self.service_list = dict()
         self.qualify_service = ServiceLookUp()
         self.email_list = self._validation_list()
 
     def _validation_list(self):
         try:
-            self.email_manager.conectar()
-            emails = self.email_manager.catch_emails()
-            if not emails:
+            if not self.email_manager:
                 print("Nenhum email na caixa de entrada!")
-                return[]
-            return emails
+                return
+            return self.email_manager
         except Exception as err:
-            print(f"Erro ao abrir/buscar emails: {err}")
-            return []
+            raise f"Erro ao abrir/buscar emails: {err}"
     
     def mail_resolver(self):
         service_mail = self.email_list
