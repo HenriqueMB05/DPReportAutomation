@@ -12,7 +12,7 @@ class EmailLookUp:
         try:
             if not self.email_manager:
                 print("Nenhum email na caixa de entrada!")
-                return
+                return []
             return self.email_manager
         except Exception as err:
             raise f"Erro ao abrir/buscar emails: {err}"
