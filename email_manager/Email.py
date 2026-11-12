@@ -83,8 +83,8 @@ class Email:
                     "assunto":assunto,
                     "corpo":corpo_limpo
                 })
-            except Exception a err:
-                print(f"Falha ao processar email {i.decode('utf-8', errors='ignore'0} -> {err}")
+            except Exception as err:
+                print(f"Falha ao processar email {i.decode('utf-8', errors='ignore')} -> {err}")
 
         return lista_emails
 
