@@ -2,9 +2,9 @@ class ServiceLookUp:
     def __init__(self): 
         self.services ={
             "vale": {
-                "barragem_obra": ["18", "17"],
+                "usina_da_paz":["1","43"],
                 "barragem_cnpj": ["1", "18"], 
-                "operação": ["38", "37"], 
+                "operação": ["40", "39"], 
                 "infra":["23", "22"], 
                 "remanescente": ["25", "24"]
             },
@@ -19,11 +19,12 @@ class ServiceLookUp:
                 "parque_linear":["37","36"]
             },
             "consorcio":{
-                "candeias":["27", "26"],
+                "candeias":["42", "41"],
                 "ji-parana":["28","27"],
                 "tapa_buraco":["31","30"],
                 "rio_da_vala":["33","32"],
-                "rio_caete":["35","34"]
+                "br-230": ["41","40"],
+                "br-158": ["43", "42"]
             }
         }
     
@@ -37,29 +38,22 @@ class ServiceLookUp:
 
 
     def service_resolver(self, name_service):
-        service = []
-        for category, sub_services in self.services.items():
-            if "todos" in name_service.lower() or "todas" in name_service.lower():
-                for email_service, data in sub_services.items():
-                    field_work = data[0]
-                    department = data[1]
-                    service.append((field_work, department))
-            if category.lower() in name_service.lower():
-                for email_service, data in sub_services.items():
-                    field_work = data[0]
-                    department = data[1]
-                    service.append((field_work, department))
-                continue
-            for email_service, data in sub_services.items():
-                email_service = email_service.replace("_", " ")
-                if email_service.lower() in name_service.lower():
-                    field_work = data[0]
-                    department = data[1]
-                    service.append((field_work, department))
-        return list(set(service))
+        services = name_service.lower().strip()
 
+        if "todos" in services or "todas" in services:
+            return list(self.flat_services.values())
+        
+        if services in self.services:
+            return[tuple(dados) for dados in self.services[services].values()]
 
-lista = ['barragem obra', 'barragem cnpj']
+        if services in self.flat_services:
+            return[self.flat_services[services]]
+        
+        return []
+
+lista = ['usina_da_paz', 'barragem_cnpj', 'todos']
 
 if __name__ == '__main__':
-    service_resolver()
+    servico = ServiceLookUp()
+    print(*(x for x in lista))
+    print([servico.service_resolver(set(x)) for x in lista])
