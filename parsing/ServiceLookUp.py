@@ -51,9 +51,9 @@ class ServiceLookUp:
         
         return []
 
-lista = ['usina_da_paz', 'barragem_cnpj', 'todos']
 
 if __name__ == '__main__':
+    lista = ['usina_da_paz', 'barragem_cnpj', 'todos']
     servico = ServiceLookUp()
     print(*(x for x in lista))
-    print([servico.service_resolver(set(x)) for x in lista])
+    print([servico.service_resolver(x) for x in lista])
