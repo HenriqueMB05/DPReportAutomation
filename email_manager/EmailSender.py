@@ -23,7 +23,7 @@ class EmailSender:
 
     def send(self, subject:str, recipient:str, body:str):
         subject = self._validate_subject(subject)
-        body = self._validate_text(text)
+        body = self._validate_text(body)
 
         msg = EmailMessage()
         
@@ -34,12 +34,12 @@ class EmailSender:
         # O correto é puxar o email do remetente
         msg.set_content(body, subtype ='html')
         try:
-            with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+            with smtplib.SMTP_SSL(self.smtp_server, self.smtp_port) as server:
                 server.login(self.user, self.pswd)
                 server.send_message(msg)
                 print("Email enviado")
         except Exception as err:
-            print(f"Erro ao enviar email: {err}"
+            print(f"Erro ao enviar email: {err}")
 
 if __name__ == "__main__":
     sender = EmailSender()
